@@ -33,14 +33,15 @@ const Movie_table = `CREATE TABLE movies(
     metascore VARCHAR(50),
     votes INT(20) ,
     gross_earning_in_mil VARCHAR(30) ,
+    director_id VARCHAR(50), 
     actor VARCHAR(21) ,
     year INT(4),
     PRIMARY KEY (Movie_rank) )`;
 
 const Director_table = `CREATE TABLE Director(
-   movie_rank_id INT(3),
+   Director_id INT(3),
    director_name VARCHAR(250),
-   FOREIGN KEY (movie_rank_id) REFERENCES movies(Movie_rank))`;
+   FOREIGN KEY (Director_id) REFERENCES movies(Movie_rank))`;
 
 
 connection.query(Movie_table, (err, result) => {
@@ -51,25 +52,45 @@ connection.query(Director_table, (err, result) => {
   if (err) throw err;
   console.log(' Director Table created');
 });
-const Remove_Director_Entries = Movie_data.map(({ Director, ...l }) => l);
+// const Remove_Director_Entries = Movie_data.map(({ Director, ...l }) => l);
 // console.log(Remove_Director_Entries);
-const Final_Data_FOR_Movie = Remove_Director_Entries.map(Object.values);
+const Final_Data_FOR_Movie = Movie_data.map(Object.values);
 // console.log(Final_Data_FOR_Movie);
 connection.query('insert into movies VALUES ?', [Final_Data_FOR_Movie]);
 
-// eslint-disable-next-line no-undef
-// eslint-disable-next-line dot-notation
-const x = Movie_data.map(item => item['Director']);
-const set = [...new Set(x)];
-// console.log(set);
-const y = set.reduce((acc, item) => {
-    
+let id = 1;
+let directors = new Set();
+Movie_data.forEach((item) => {
+  directors.add(item.Director);
 });
 
-Movie_data.forEach((element) => {
-  connection.query(`insert into Director 
-  VALUES(${element.Rank},"${element.Director}")`, (err) => {
-    if (err) throw err;
+let obj = {};
+directors.forEach((director) => {
+  if (!obj.hasOwnProperty(director)) {
+    obj[director] = id;
+    id += 1;
+  }
+});
+// console.log(obj);
+
+let Director_unique_table= Object.keys(obj).reduce((acc, cur) => {
+  acc.push({
+    director_name: cur,
+    Director_id: obj[cur],
   });
+  return acc;
+}, []);
+
+
+Director_unique_table.forEach((item) => {
+  connection.query('insert into Director set ?', item, (error) => {
+    if (error) throw error;
+  });
+});
+
+const modify = `UPDATE movies join  Director on Director.director_name = movies.director_id 
+                set movies.director_id = Director.Director_id`;
+connection.query(modify, (error) => {
+  if (error) throw error;
 });
 connection.end();
