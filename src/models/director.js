@@ -53,6 +53,7 @@ const updateDirectorWithGivenId = (id, name) => new Promise((resolve, reject) =>
 });
 
 
+
 /** ****-----------Query No -5(Delete Director With GIven ID) -----************** */
 const deleteDirectorWithGivenid = id => new Promise((resolve, reject) => {
   connect.query(`DELETE FROM Directors  WHERE directorId="${id}"`, (err, data) => {
