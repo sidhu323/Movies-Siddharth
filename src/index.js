@@ -1,9 +1,12 @@
 const express = require('express');
 
-const app = express();
+
+const async = require('express-async-await');
+const fetch = require('node-fetch');
 
 
-app.listen(3000, () => {
-  console.log('Server started at port 3000...');
-});
-
+router.get('/', async function(req, res, next) {
+  function (){
+    
+  return fetch(``)
+  }
