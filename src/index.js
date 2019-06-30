@@ -9,4 +9,3 @@ router.get('/', async function(req, res, next) {
   function (){
     
   return fetch(``)
-  }

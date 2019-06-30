@@ -63,6 +63,7 @@ function insertMovies(Movie_data) {
        VALUES(${data.Rank}, "${data.Title}", "${data.Description}", ${data.Runtime}, "${data.Genre}",
         ${data.Rating}, "${data.Metascore}", ${data.Votes}, "${data.Gross_Earning_in_Mil}", ${ID}, 
         "${data.Actor}", ${data.Year})`, (err, res) => {
+   
         if (err) {
           reject(err);
         }
@@ -88,7 +89,7 @@ function makeDirectorTable() {
 function insertDirectorvalue(distinctDirectorName) {
   return Promise.all(distinctDirectorName.map(item => new Promise((resolve, reject) => {
     connect.query(`insert into Directors (Name) VALUES ("${item}")`, (err, res) => {
-      // console.log('inserting director', item);
+   
       if (err) {
         reject(err);
       } else {
