@@ -3,10 +3,10 @@
 /* eslint-disable no-console */
 /* eslint-disable no-shadow */
 const express = require('express');
-const db = require('./util/connectDb');
+const db = require('../utils/connectDb');
 
 const connect = db.connectDatabase();
-const Movie_data = require('./movies.json');
+const Movie_data = require('../../src/movies.json');
 
 
 connect.connect((err) => {
