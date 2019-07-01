@@ -49,7 +49,6 @@ const updateMovieWithGivenId = (movieId, updateMovie) => new Promise((resolve, r
 });
 
 
-
 /* -----------Query No -10 Delete The Table With Given Id *-------------------------*/
 
 const deleteMovieWithGivenId = movieid => new Promise((resolve, reject) => {
@@ -89,4 +88,7 @@ const newMovie = {
   director_id: 2,
   actor: 'VickyKaushal',
   year: 2015,
+};
+module.exports = {
+  getAllMovies, getMovieWithGivenId, addNewMovie, updateMovieWithGivenId, deleteMovieWithGivenId,
 };

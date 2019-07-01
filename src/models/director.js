@@ -41,9 +41,7 @@ const addNewDirector = newdirector => new Promise((resolve, reject) => {
 
 /** ****-----------Query No -4(Update Director With GIven ID) -----************** */
 const updateDirectorWithGivenId = (id, name) => new Promise((resolve, reject) => {
-  connect.query(`UPDATE Directors
-               SET Name = "${name}"
-               WHERE directorId = ${id}`, (err, data) => {
+  connect.query(`UPDATE Directors SET ? WHERE directorId = ${id}`, name, (err, data) => {
     if (err) {
       reject(err);
     } else {
@@ -51,7 +49,6 @@ const updateDirectorWithGivenId = (id, name) => new Promise((resolve, reject) =>
     }
   });
 });
-
 
 
 /** ****-----------Query No -5(Delete Director With GIven ID) -----************** */
@@ -64,4 +61,10 @@ const deleteDirectorWithGivenid = id => new Promise((resolve, reject) => {
     }
   });
 });
-
+module.exports = {
+  getAllDirectors,
+  getDirectorWithGivenId,
+  addNewDirector,
+  updateDirectorWithGivenId,
+  deleteDirectorWithGivenid,
+};
