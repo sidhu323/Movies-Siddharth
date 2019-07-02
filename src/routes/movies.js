@@ -1,14 +1,13 @@
 const express = require('express');
 const movieModuleApi = require('../models/movie');
 const validate = require('../models/validate')
-const app = express();
-app.use(express.json());
+
 const router = express.Router();
 
 
 /* ---------- To manage the entire collection of movies resource ------------*/
 // get All Movies
-app.get('/api/movies', (req, res) => {
+router.get('/', (req, res) => {
   movieModuleApi.getAllMovies()
     .then((val) => {
       res.send(val);
@@ -18,17 +17,15 @@ app.get('/api/movies', (req, res) => {
 
 // To add A new MOVIE
 
-app.post('/api/movies', (req, res) => {
+router.post('/', (req, res) => {
   const {error} = validate.ValidatorForMovies(req.body)
   if(error)
   {
-    return res.status(400).send("error.details[0].message");
+    return res.status(400).send(error.details[0].message);
   }
   movieModuleApi.addNewMovie(req.body)
-    .then((data) => {
-      res.send(data);
-    });
-});
+    .then(data=>res.send(data)).catch(console.error);
+  });
 
 
 
@@ -36,37 +33,46 @@ app.post('/api/movies', (req, res) => {
 /** *-------- To manage a single movie resource------------- */
 
 // get the movie with id name(to retrieve  a Movie)
-app.get('/api/movies/:movieId', (req, res) => {
+router.get('/:movieId', (req, res) => {
   movieModuleApi.getMovieWithGivenId(req.params.movieId)
     .then((val) => {
-      res.send(val);
+      if (val.length === 0) {
+        return res.status(404).send('Item not found');
+      }
+    })
+    .then( movieModuleApi.getMovieWithGivenId(req.params.movieId).then(val=> res.send(val)))
+    .catch(console.error);
     });
-});
 
 // to Update The Details of A movie
-app.put('/api/movies/:movieId', (req, res) => {
+router.put('/:movieId', (req, res) => {
+  movieModuleApi.getMovieWithGivenId(req.params.movieId)
+    .then((presence) => {
+      if (presence.length === 0) {
+        return res.status(404).send('Item not found');
+      }
+    }).catch(console.error);
+
   const {error} = validate.ValidatorForMoviesUpdate(req.body)
   if(error)
   {
     return res.status(400).send("error.details[0].message");
   }
   movieModuleApi.updateMovieWithGivenId(req.params.movieId, req.body)
-    .then((val) => {
-      res.send(val);
-    });
-});
+    .then(val => res.send(val)
+    .catch(console.error));
+  });
 
 // TO remove a movie
-app.delete('/api/movies/:movieId', (req, res) => {
-  movieModuleApi.deleteMovieWithGivenId(req.params.movieId)
-    .then((val) => {
-      res.send(val);
-    });
+router.delete('/:movieId', (req, res) => {
+  movieModuleApi.getMovieWithGivenId(req.params.movieId).then((presence) => {
+    if (presence.length === 0) {
+      return res.status(404).send('Item not found');
+    }
+  })
+  .then(movieModuleApi.deleteMovieWithGivenId(req.params.movieId)
+    .then(val =>res.send(val))).catch(console.error);
+    
 });
 
-
-const port = process.env.portNumber || 3000;
-app.listen(port, () => {
-  console.log('Node Server is running');
-});
-
+module.exports=router;

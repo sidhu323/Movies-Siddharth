@@ -89,7 +89,7 @@ function makeDirectorTable() {
 function insertDirectorvalue(distinctDirectorName) {
   return Promise.all(distinctDirectorName.map(item => new Promise((resolve, reject) => {
     connect.query(`insert into Directors (Name) VALUES ("${item}")`, (err, res) => {
-   
+      console.log("inserting",item)
       if (err) {
         reject(err);
       } else {
@@ -107,8 +107,10 @@ async function main() {
   await makeDirectorTable();
   await makeMovieTable();
   await insertDirectorvalue(distinctDirectorName);
+  console.log("inserted");
   await insertMovies(Movie_data);
   connect.end();
+  
 }
 
 main();

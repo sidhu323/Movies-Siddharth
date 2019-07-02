@@ -5,7 +5,7 @@ const connect = db.connectDatabase();
 
 /** ****-----------Query No -1 -----************** */
 const getAllDirectors = () => new Promise((resolve, reject) => {
-  connect.query('SELECT Name FROM Directors;', (err, data) => {
+  connect.query('SELECT * FROM Directors;', (err, data) => {
     if (err) {
       reject(err);
     } else {
@@ -28,13 +28,13 @@ const getDirectorWithGivenId = id => new Promise((resolve, reject) => {
 
 
 /** ****-----------Query No -3(Add A New Director) -----************** */
-const addNewDirector = newdirector => new Promise((resolve, reject) => {
-  connect.query(`INSERT INTO Directors(Name)
-               VALUES("${newdirector}")`, (err, data) => {
+const addNewDirector = (newdirector) => new Promise((resolve, reject) => {
+  const insert = 'INSERT INTO Directors SET ?';
+  connect.query(insert, newdirector, (err, data) => {
     if (err) {
       reject(err);
     } else {
-      resolve((data));
+      resolve(data);
     }
   });
 });

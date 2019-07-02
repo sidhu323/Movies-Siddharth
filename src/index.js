@@ -1,11 +1,14 @@
 const express = require('express');
 
+const app = express();
+app.use(express.json());
+const movies = require('./routes/movies');
+const directors = require('./routes/directors');
 
-const async = require('express-async-await');
-const fetch = require('node-fetch');
+app.use('/api/movies', movies);
+app.use('/api/directors', directors);
 
 
-router.get('/', async function(req, res, next) {
-  function (){
-    
-  return fetch(``)
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`listening on port ${port}....`));

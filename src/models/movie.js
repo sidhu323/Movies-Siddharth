@@ -31,7 +31,7 @@ const addNewMovie = newMovie => new Promise((resolve, reject) => {
     if (error) {
       reject(error);
     } else {
-      resolve((result));
+       resolve((result));
     }
   });
 });
@@ -60,35 +60,37 @@ const deleteMovieWithGivenId = movieid => new Promise((resolve, reject) => {
     }
   });
 });
-const updateMovie = {
-  Movie_rank: 5,
-  title: 'The Pursuit Of Happiness',
-  description: 'A job seeker struggling with life',
-  runtime: 145,
-  genre: 'Drama',
-  rating: 80,
-  metascore: 50,
-  votes: 112344,
-  gross_earning_in_mil: '500.5',
-  director_id: 5,
-  actor: 'Will Smith',
-  year: 2012,
-};
+// const updateMovie = {
+//   Movie_rank: 5,
+//   title: 'The Pursuit Of Happiness',
+//   description: 'A job seeker struggling with life',
+//   runtime: 145,
+//   genre: 'Drama',
+//   rating: 80,
+//   metascore: 50,
+//   votes: 112344,
+//   gross_earning_in_mil: '500.5',
+//   director_id: 5,
+//   actor: 'Will Smith',
+//   year: 2012,
+// };
 
-const newMovie = {
-  Movie_rank: 10,
-  title: 'Masaan',
-  description: 'Deep Meaning of Life Based Movie',
-  runtime: 120,
-  genre: 'Drama',
-  rating: 90,
-  metascore: 50,
-  votes: 112400,
-  gross_earning_in_mil: '340.8',
-  director_id: 2,
-  actor: 'VickyKaushal',
-  year: 2015,
-};
+// const newMovie = {
+//   Movie_rank: 10,
+//   title: 'Masaan',
+//   description: 'Deep Meaning of Life Based Movie',
+//   runtime: 120,
+//   genre: 'Drama',
+//   rating: 90,
+//   metascore: 50,
+//   votes: 112400,
+//   gross_earning_in_mil: '340.8',
+//   director_id: 2,
+//   actor: 'VickyKaushal',
+//   year: 2015,
+// };
+
+
 module.exports = {
   getAllMovies, getMovieWithGivenId, addNewMovie, updateMovieWithGivenId, deleteMovieWithGivenId,
 };
