@@ -10,10 +10,8 @@ const directorModuleApi = require('../models/director');
 /*= -------To manage the entire collection of directors resource----*/
 
 router.get('/', (req, res,next) => {
-  let err =  new Error("heavy");
-  err.statusCode = 403;
-  next(err);  
-  directorModuleApi.getAllDirectors()
+  
+  directorModuleApi.getAllDirectorss()
     .then(val => res.send(val))
     .catch(console.error);
 });
@@ -52,11 +50,11 @@ router.put('/:directorId', (req, res) => {
     if (presence.length === 0) {
       return res.status(404).send('Item not found');
     }
-  }).catch(console.error);
+  }).catch( console.error);
 
   const {error}=validate.directorValidatorUpdate(req.body)
   if(error){
-    return res.status(400).send("error.details[0].message")
+    return res.status(400).send(error.details[0].message)
   }
   directorModuleApi.updateDirectorWithGivenId(req.params.directorId, req.body)
     .then((data) => {

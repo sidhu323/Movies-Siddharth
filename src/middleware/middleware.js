@@ -1,9 +1,21 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
-app.use(function(err, req, res, next) {
-    console.error(err.message); // Log error message in our server's console
-    if (!err.statusCode) err.statusCode = 500; // If err has no specified error code, set error code to 'Internal Server Error (500)'
-    res.status(err.statusCode).send(err.message); // All HTTP requests must have a response, so let's send back an error with its status code and message
-  });
 
-  
+
+// app.use((req,res,next)=>{
+// const error = new Error("Not Found");
+// error.status=404;
+// next(error);
+
+// })
+// app.use((error,req,res,next)=>{
+// res.status(error.status || 500);
+// res.json({
+//     error:{
+//         message:error.message
+//     }
+// })
+// res.send("not found");
+// });
+
